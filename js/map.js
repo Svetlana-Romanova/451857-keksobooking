@@ -65,7 +65,7 @@ var getAdds = function () {
     ads.push(ad);
   }
   return ads;
-}
+};
 var realAds = getAdds();
 
 var mapPins = document.querySelector('.map__pins');
@@ -75,7 +75,7 @@ for (var j = 0; j < realAds.length; j++) {
   var butt = document.createElement('button');
   butt.className = 'map__pin';
   butt.style.cssText = 'left:' + realAds[j].location.x + 'px; top:  ' + realAds[j].location.y + 'px';
-  butt.style.tabIndex = "0";
+  butt.style.tabIndex = '0';
   butt.id = j;
   fragment.appendChild(butt);
 
@@ -88,11 +88,11 @@ for (var j = 0; j < realAds.length; j++) {
 }
 mapPins.appendChild(fragment);
 
+var map = document.querySelector('.map');
 var mapTemplate = document.querySelector('template').content;
-var mapTemplateCopy = mapTemplate.cloneNode(true);
 
-var showPopup = function(pinData) {
-
+var showPopup = function (pinData) {
+  var mapTemplateCopy = mapTemplate.cloneNode(true);
   var typeBuilding = mapTemplateCopy.querySelector('h4');
   var popupFeatures = mapTemplateCopy.querySelector('.popup__features');
   var popupP = mapTemplateCopy.querySelectorAll('p');
@@ -111,46 +111,65 @@ var showPopup = function(pinData) {
     typeBuilding.textContent = 'Бунгало';
   } else {
     typeBuilding.textContent = 'Дом';
-  };
+  }
 
   for (var i = 0; i < popupFeatures.children.length; i++) {
     popupFeatures.children[i].style.display = 'none';
-    for (var j = 0; j < realAds[j].offer.features.length; j++) {
+    for (var j = 0; j < pinData.offer.features.length; j++) {
       var classElement = 'feature--' + realAds[j].offer.features[j];
       if (popupFeatures.children[i].classList.contains(classElement)) {
         popupFeatures.children[i].style.display = 'inline-block';
       }
     }
   }
-  document.querySelector('.map').appendChild(mapTemplateCopy);
+  map.appendChild(mapTemplateCopy);
 };
 
-var map = document.querySelector('.map');
-var fieldset = document.body.getElementsByTagName('fieldset');
 var form = document.querySelector('.notice__form');
 var mainPin = document.querySelector('.map__pin--main');
-mainPin.addEventListener('mouseup', function() {
+var mapPin = document.querySelectorAll('.map__pin');
+
+mainPin.addEventListener('mouseup', function () {
   map.classList.remove('map--faded');
   form.classList.remove('notice__form--disabled');
 });
 
-var mapPin = document.querySelectorAll('.map__pin');
-var popupClose = document.querySelector('.popup__close');
-
-for(var i = 1; i < mapPin.length - 1; i++) {
-  mapPin[i].addEventListener('click', function() {
-    showPopup(realAds[+this.id]);
-    var popup = document.querySelector('.popup');
-    popup.style.display = 'block';
-    for(var j = 0; j < mapPin.length; j++) {
-      if (mapPin[j].classList.contains('map__pin--active')) {
-        mapPin[j].classList.remove('map__pin--active');
-      }
-    }
-    this.classList.add('map__pin--active');
-    popup.querySelector('.popup__close').addEventListener('click', function() {
-    document.querySelector('.popup').style.display = 'none';
-    })
-  })
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    document.querySelector('.map').removeChild(document.querySelector('.popup'));
+  }
 };
 
+var popupOpen = function (a, b) {
+  showPopup(realAds[+a]);
+  for (var j = 1; j < mapPin.length; j++) {
+    if (mapPin[j].classList.contains('map__pin--active')) {
+      mapPin[j].classList.remove('map__pin--active');
+    }
+  }
+  b.classList.add('map__pin--active');
+};
+
+var popupClose = function () {
+  var popup = document.querySelector('.popup');
+  popup.querySelector('.popup__close').addEventListener('click', function () {
+    document.querySelector('.map').removeChild(popup);
+  });
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+for (var i = 1; i < mapPin.length; i++) {
+  mapPin[i].addEventListener('click', function () {
+    popupOpen(this.id, this);
+    popupClose();
+  });
+}
+
+for (var i = 1; i < mapPin.length; i++) {
+  mapPin[i].addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      popupOpen(this.id, this);
+    }
+    popupClose();
+  });
+}
