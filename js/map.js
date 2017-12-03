@@ -154,33 +154,35 @@ var handleSelection = function (a) {
     }
   }
   a.classList.add('map__pin--active');
+  document.addEventListener('keydown', onPopupEscPress);
 };
 
-var popupClose = function () {
-  elPopupClose.addEventListener('click', function () {
-    article.classList.add('hidden');
-  });
+var hideSelection = function () {
+  article.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
+
+elPopupClose.addEventListener('click', function () {
+  hideSelection();
+});
 
 elPopupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    popupClose();
+    hideSelection();
   }
 });
+
+for (var i = 1; i < mapPin.length; i++) {
+  mapPin[i].addEventListener('click', function () {
+    handleSelection(this);
+  });
+}
 
 for (var i = 1; i < mapPin.length; i++) {
   mapPin[i].addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       handleSelection(this);
     }
-    document.addEventListener('keydown', onPopupEscPress);
   });
 }
 
-for (var i = 1; i < mapPin.length; i++) {
-  mapPin[i].addEventListener('click', function () {
-    handleSelection(this);
-    popupClose();
-    document.addEventListener('keydown', onPopupEscPress);
-  });
-}
