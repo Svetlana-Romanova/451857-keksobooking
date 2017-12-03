@@ -89,7 +89,7 @@ for (var j = 0; j < realAds.length; j++) {
 mapPins.appendChild(fragment);
 
 var map = document.querySelector('.map');
-var mapTemplate = document.querySelector('template').content;
+var mapTemplate = document.querySelector('template').content.querySelector('article');
 
 var showPopup = function (pinData) {
   var mapTemplateCopy = mapTemplate.cloneNode(true);
@@ -136,7 +136,7 @@ mainPin.addEventListener('mouseup', function () {
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    document.querySelector('.map').removeChild(document.querySelector('.popup'));
+    map.removeChild(document.querySelector('.popup'));
   }
 };
 
@@ -153,7 +153,7 @@ var popupOpen = function (a, b) {
 var popupClose = function () {
   var popup = document.querySelector('.popup');
   popup.querySelector('.popup__close').addEventListener('click', function () {
-    document.querySelector('.map').removeChild(popup);
+    map.removeChild(popup);
   });
   document.addEventListener('keydown', onPopupEscPress);
 };
@@ -171,5 +171,11 @@ for (var i = 1; i < mapPin.length; i++) {
       popupOpen(this.id, this);
     }
     popupClose();
+    popup.querySelector('.popup__close').addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        map.removeChild(popup);
+      }
+    });
   });
 }
+
