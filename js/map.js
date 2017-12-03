@@ -162,17 +162,18 @@ var popupClose = function () {
   });
 };
 
+elPopupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    popupClose();
+  }
+});
+
 for (var i = 1; i < mapPin.length; i++) {
   mapPin[i].addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       handleSelection(this);
     }
     document.addEventListener('keydown', onPopupEscPress);
-    elPopupClose.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE) {
-        popupClose();
-      }
-    });
   });
 }
 
