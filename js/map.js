@@ -1,5 +1,9 @@
 'use strict';
 
+
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+
 var titles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var buildings = ['flat', 'house', 'bungalo'];
 var times = ['12:00', '13:00', '14:00'];
@@ -62,10 +66,8 @@ var getAdds = function () {
     ads.push(ad);
   }
   return ads;
-}
+};
 var realAds = getAdds();
-
-document.querySelector('.map').classList.remove('map--faded');
 
 var mapPins = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
@@ -74,6 +76,9 @@ for (var j = 0; j < realAds.length; j++) {
   var butt = document.createElement('button');
   butt.className = 'map__pin';
   butt.style.cssText = 'left:' + realAds[j].location.x + 'px; top:  ' + realAds[j].location.y + 'px';
+  butt.style.tabIndex = '0';
+  butt.id = j;
+  
   fragment.appendChild(butt);
 
   var img = document.createElement('img');
@@ -84,6 +89,104 @@ for (var j = 0; j < realAds.length; j++) {
   butt.appendChild(img);
 }
 mapPins.appendChild(fragment);
+
+var map = document.querySelector('.map');
+var mapTemplate = document.querySelector('template').content.querySelector('article');
+var mapTemplateCopy = mapTemplate.cloneNode(true);
+map.appendChild(mapTemplateCopy);
+
+
+var showPopup = function (pinData) {
+  var typeBuilding = mapTemplateCopy.querySelector('h4');
+  var popupFeatures = mapTemplateCopy.querySelector('.popup__features');
+  var popupP = mapTemplateCopy.querySelectorAll('p');
+
+  mapTemplateCopy.querySelector('h3').textContent = pinData.offer.title;
+  mapTemplateCopy.querySelector('p').textContent = pinData.offer.address;
+  mapTemplateCopy.querySelector('.popup__price').textContent = pinData.offer.price + '₽/ночь';
+  popupP[2].textContent = 'Комнаты: ' + pinData.offer.rooms + ' для ' + pinData.offer.guests + ' гостей';
+  popupP[3].textContent = 'Заезд после ' + pinData.offer.checkin + ', выезд до ' + pinData.offer.checkout;
+  popupP[4].textContent = pinData.offer.description;
+  mapTemplateCopy.querySelector('.popup__avatar').src = pinData.author.avatar;
+
+  if (pinData.offer.type === 'flat') {
+    typeBuilding.textContent = 'Квартира';
+  } else if (pinData.offer.type === 'bungalo') {
+    typeBuilding.textContent = 'Бунгало';
+  } else {
+    typeBuilding.textContent = 'Дом';
+  }
+
+  for (var i = 0; i < popupFeatures.children.length; i++) {
+    popupFeatures.children[i].style.display = 'none';
+    for (var j = 0; j < pinData.offer.features.length; j++) {
+      var classElement = 'feature--' + realAds[j].offer.features[j];
+      if (popupFeatures.children[i].classList.contains(classElement)) {
+        popupFeatures.children[i].style.display = 'inline-block';
+      }
+    }
+  }
+  return mapTemplateCopy;
+};
+
+var form = document.querySelector('.notice__form');
+var mainPin = document.querySelector('.map__pin--main');
+var mapPin = document.querySelectorAll('.map__pin');
+var popup = document.querySelector('.popup');
+var article = document.querySelector('article');
+var elPopupClose = popup.querySelector('.popup__close');
+
+mainPin.addEventListener('mouseup', function () {
+  map.classList.remove('map--faded');
+  form.classList.remove('notice__form--disabled');
+});
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    article.classList.add('hidden');
+  }
+};
+
+var handleSelection = function (a) {
+  showPopup(realAds[+a.id]);
+  article.classList.remove('hidden');
+  for (var j = 1; j < mapPin.length; j++) {
+    if (mapPin[j].classList.contains('map__pin--active')) {
+      mapPin[j].classList.remove('map__pin--active');
+    }
+  }
+  a.classList.add('map__pin--active');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var hideSelection = function () {
+  article.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+elPopupClose.addEventListener('click', function () {
+  hideSelection();
+});
+
+elPopupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    hideSelection();
+  }
+});
+
+for (var i = 1; i < mapPin.length; i++) {
+  mapPin[i].addEventListener('click', function () {
+    handleSelection(this);
+  });
+}
+
+for (var i = 1; i < mapPin.length; i++) {
+  mapPin[i].addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      handleSelection(this);
+    }
+  });
+}
 
 var mapTemplate = document.querySelector('template').content;
 
@@ -121,3 +224,4 @@ popupFeatures.nextElementSibling.textContent = realAds[1].offer.description;
 mapTemplateCopy.querySelector('.popup__avatar').src = realAds[1].author.avatar;
 
 document.querySelector('.map').appendChild(mapTemplateCopy);
+
