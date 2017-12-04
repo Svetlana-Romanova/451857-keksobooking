@@ -188,7 +188,6 @@ for (var i = 1; i < mapPin.length; i++) {
   });
 }
 
-=======
 var mapTemplate = document.querySelector('template').content;
 
 var mapTemplateCopy = mapTemplate.cloneNode(true);
