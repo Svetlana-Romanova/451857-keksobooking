@@ -847,3 +847,7 @@ textarea:focus
 {
     background-position: -10px -10px;
 }
+
+input:invalid {
+  border: 2px solid red;
+}

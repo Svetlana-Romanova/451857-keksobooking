@@ -141,7 +141,7 @@ mainPin.addEventListener('mouseup', function () {
   form.classList.remove('notice__form--disabled');
 });
 
-var onPopupEscPress = function (evt) {
+var EscClickHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     article.classList.add('hidden');
   }
@@ -156,12 +156,12 @@ var handleSelection = function (a) {
     }
   }
   a.classList.add('map__pin--active');
-  document.addEventListener('keydown', onPopupEscPress);
+  document.addEventListener('keydown', EscClickHandler);
 };
 
 var hideSelection = function () {
   article.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscPress);
+  document.removeEventListener('keydown', EscClickHandler);
 };
 
 elPopupClose.addEventListener('click', function () {
@@ -187,3 +187,46 @@ for (var i = 1; i < mapPin.length; i++) {
     }
   });
 }
+
+var selectTimeIn = document.querySelector('#timein');
+var selectimeOut = document.querySelector('#timeout');
+var selectType = document.querySelector('#type');
+var inputPrice = document.querySelector('#price');
+var roomNumber = document.querySelector('#room_number');
+var roomCapacity = document.querySelector('#capacity');
+
+var selectTmeChangeHandler = function (a,b) {
+  a.addEventListener('change', function () {
+    for (var i = 0; i < a.options.length; i++) {
+      var option = a.options[i];
+      if (option.selected) {
+        b.options[i].selected = true;
+      }
+    }
+  })
+};
+selectTmeChangeHandler (selectTimeIn, selectimeOut);
+selectTmeChangeHandler (selectimeOut, selectTimeIn);
+
+selectType.addEventListener('change', function (evt) {
+  if (this.value === 'bungalo') {
+    inputPrice.minLength = '0';
+  } else if (this.value === 'flat') {
+    inputPrice.minLength = '1000';
+  } else if (this.value === 'house') {
+    inputPrice.minLength = '5000';
+  } else {
+    inputPrice.minLength = '10000';
+  }
+})
+
+roomNumber.addEventListener('change', function (evt) {
+  for (var i = 0; i < roomNumber.options.length; i++) {
+    if (this.value === '100') {
+      roomCapacity.value ='0';
+    } else {
+      roomCapacity.value = this.value;
+    }
+  }
+})
+
