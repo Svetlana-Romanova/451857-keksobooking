@@ -210,13 +210,13 @@ selectTmeChangeHandler (selectimeOut, selectTimeIn);
 
 selectType.addEventListener('change', function (evt) {
   if (this.value === 'bungalo') {
-    inputPrice.minLength = '0';
+    inputPrice.min = '0';
   } else if (this.value === 'flat') {
-    inputPrice.minLength = '1000';
+    inputPrice.min = '1000';
   } else if (this.value === 'house') {
-    inputPrice.minLength = '5000';
+    inputPrice.min = '5000';
   } else {
-    inputPrice.minLength = '10000';
+    inputPrice.min = '10000';
   }
 });
 
