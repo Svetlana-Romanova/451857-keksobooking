@@ -195,7 +195,7 @@ var inputPrice = document.querySelector('#price');
 var roomNumber = document.querySelector('#room_number');
 var roomCapacity = document.querySelector('#capacity');
 
-var selectTmeChangeHandler = function (a,b) {
+var selectTmeChangeHandler = function (a, b) {
   a.addEventListener('change', function () {
     for (var i = 0; i < a.options.length; i++) {
       var option = a.options[i];
@@ -203,7 +203,7 @@ var selectTmeChangeHandler = function (a,b) {
         b.options[i].selected = true;
       }
     }
-  })
+  });
 };
 selectTmeChangeHandler (selectTimeIn, selectimeOut);
 selectTmeChangeHandler (selectimeOut, selectTimeIn);
@@ -218,15 +218,15 @@ selectType.addEventListener('change', function (evt) {
   } else {
     inputPrice.minLength = '10000';
   }
-})
+});
 
 roomNumber.addEventListener('change', function (evt) {
   for (var i = 0; i < roomNumber.options.length; i++) {
     if (this.value === '100') {
-      roomCapacity.value ='0';
+      roomCapacity.value = '0';
     } else {
       roomCapacity.value = this.value;
     }
   }
-})
+});
 
