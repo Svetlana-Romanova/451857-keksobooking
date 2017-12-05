@@ -74,7 +74,7 @@ var fragment = document.createDocumentFragment();
 for (var j = 0; j < realAds.length; j++) {
 
   var butt = document.createElement('button');
-  butt.className = 'map__pin';
+  butt.className = 'map__pin hidden';
   butt.style.cssText = 'left:' + realAds[j].location.x + 'px; top:  ' + realAds[j].location.y + 'px';
   butt.style.tabIndex = '0';
   butt.id = j;
@@ -135,10 +135,22 @@ var mapPin = document.querySelectorAll('.map__pin');
 var popup = document.querySelector('.popup');
 var article = document.querySelector('article');
 var elPopupClose = popup.querySelector('.popup__close');
+var allFormEl = document.querySelectorAll('.form__element');
+
+for (var i = 0; i < allFormEl.length; i++) {
+  allFormEl[i].disabled = true;
+}
 
 mainPin.addEventListener('mouseup', function () {
   map.classList.remove('map--faded');
   form.classList.remove('notice__form--disabled');
+  for (var i = 0; i < mapPin.length; i++) {
+    mapPin[i].classList.remove('hidden');
+    document.querySelector('.notice').style.disabled = 'false';
+  }
+  for (var i = 0; i < allFormEl.length; i++) {
+    allFormEl[i].disabled = false;
+  }
 });
 
 var EscClickHandler = function (evt) {
@@ -208,15 +220,16 @@ var selectTmeChangeHandler = function (a, b) {
 selectTmeChangeHandler (selectTimeIn, selectimeOut);
 selectTmeChangeHandler (selectimeOut, selectTimeIn);
 
+inputPrice.min = '1000';
 selectType.addEventListener('change', function (evt) {
-  if (this.value === 'bungalo') {
-    inputPrice.min = '0';
-  } else if (this.value === 'flat') {
+  if (this.value === 'flat') {
     inputPrice.min = '1000';
   } else if (this.value === 'house') {
     inputPrice.min = '5000';
-  } else {
+  } else if (this.value === 'palace') {
     inputPrice.min = '10000';
+  } else {
+    inputPrice.min = '0';
   }
 });
 
