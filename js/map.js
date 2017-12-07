@@ -20,7 +20,6 @@
     form.classList.remove('notice__form--disabled');
     for (var i = 0; i < mapPin.length; i++) {
       mapPin[i].classList.remove('hidden');
-      document.querySelector('.notice').style.disabled = 'false';
     }
     for (var i = 0; i < allFormEl.length; i++) {
       allFormEl[i].disabled = false;
