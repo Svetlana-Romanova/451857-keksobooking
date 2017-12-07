@@ -57,7 +57,7 @@ window.data = (function () {
 
         'location': {
           'x': randomNumber(300, 900),
-          'y': randomNumber(100, 500)
+          'y': randomNumber(180, 580)
         }
       };
       ad.offer.address = ad.location.x + ',' + ad.location.y;
