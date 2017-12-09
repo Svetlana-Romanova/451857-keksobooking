@@ -11,7 +11,7 @@
   var popup = document.querySelector('.popup');
   var article = document.querySelector('article');
   var allFormEl = document.querySelectorAll('.form__element');
-  var addressInput = document.querySelector('#address');
+
 
   for (var i = 0; i < allFormEl.length; i++) {
     allFormEl[i].disabled = true;
@@ -25,8 +25,6 @@
     for (var i = 0; i < allFormEl.length; i++) {
       allFormEl[i].disabled = false;
     }
-    addressInput.removeAttribute('disabled');
-    addressInput.readOnly = true;
   });
 
   var EscClickHandler = function (evt) {

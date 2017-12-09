@@ -6,7 +6,13 @@
   var selectType = document.querySelector('#type');
   var inputPrice = document.querySelector('#price');
   var roomNumber = document.querySelector('#room_number');
+  var addressInput = document.querySelector('#address');
   var roomCapacity = document.querySelector('#capacity');
+
+  addressInput.removeAttribute('disabled');
+  addressInput.readOnly = true;
+  roomCapacity[0].removeAttribute('selected');
+  roomCapacity[2].selected = true;
 
   var selectTmeChangeHandler = function (a, b) {
     a.addEventListener('change', function () {
