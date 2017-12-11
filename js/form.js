@@ -3,44 +3,24 @@
 (function () {
   var selectTimeIn = document.querySelector('#timein');
   var selectimeOut = document.querySelector('#timeout');
-  var selectType = document.querySelector('#type');
-  var inputPrice = document.querySelector('#price');
+  var apartmentType = document.querySelector('#type');
+  var pricePerNight = document.querySelector('#price');
   var roomNumber = document.querySelector('#room_number');
   var roomCapacity = document.querySelector('#capacity');
 
-  var selectTmeChangeHandler = function (a, b) {
-    a.addEventListener('change', function () {
-      for (var i = 0; i < a.options.length; i++) {
-        var option = a.options[i];
-        if (option.selected) {
-          b.options[i].selected = true;
-        }
-      }
-    });
+  roomCapacity[0].selected = 'false';
+  roomCapacity[2].selected = 'true';
+
+  var syncValues = function (element, value) {
+    element.value = value;
   };
-  selectTmeChangeHandler (selectTimeIn, selectimeOut);
-  selectTmeChangeHandler (selectimeOut, selectTimeIn);
 
-  inputPrice.min = '1000';
-  selectType.addEventListener('change', function (evt) {
-    if (this.value === 'flat') {
-      inputPrice.min = '1000';
-    } else if (this.value === 'house') {
-      inputPrice.min = '5000';
-    } else if (this.value === 'palace') {
-      inputPrice.min = '10000';
-    } else {
-      inputPrice.min = '0';
-    }
-  });
+  var syncValueWithMin = function (element, value) {
+    element.min = value;
+  };
 
-  roomNumber.addEventListener('change', function (evt) {
-    for (var i = 0; i < roomNumber.options.length; i++) {
-      if (this.value === '100') {
-        roomCapacity.value = '0';
-      } else {
-        roomCapacity.value = this.value;
-      }
-    }
-  });
+  window.synchronizeFields.sync(selectTimeIn, selectimeOut, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
+  window.synchronizeFields.sync(selectimeOut, selectTimeIn, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
+  window.synchronizeFields.sync(apartmentType, pricePerNight, ['flat', 'bungalo', 'house', 'palace'], ['1000', '0', '5000', '10000'], syncValueWithMin);
+  window.synchronizeFields.sync(roomNumber, roomCapacity, ['1', '2', '3', '100'], ['1', '2', '3', '0'], syncValues);
 })();
