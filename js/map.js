@@ -35,6 +35,18 @@
     }
   };
 
+  var handleSelection = function (elem) {
+    window.showCard(window.data[+elem.id]);
+    article.classList.remove('hidden');
+    for (var j = 1; j < mapPin.length; j++) {
+      if (mapPin[j].classList.contains('map__pin--active')) {
+        mapPin[j].classList.remove('map__pin--active');
+      }
+    }
+    elem.classList.add('map__pin--active');
+    document.addEventListener('keydown', EscClickHandler);
+  };
+
   var hideSelection = function () {
     article.classList.add('hidden');
     document.removeEventListener('keydown', EscClickHandler);
@@ -53,17 +65,14 @@
 
   for (var i = 1; i < mapPin.length; i++) {
     mapPin[i].addEventListener('click', function () {
-      window.showCard.handleSelection(this);
-      document.addEventListener('keydown', EscClickHandler);
+      handleSelection(this);
     });
   }
 
   for (var i = 1; i < mapPin.length; i++) {
     mapPin[i].addEventListener('keydown', function (evt) {
       if (evt.keyCode === ENTER_KEYCODE) {
-        window.showCard.handleSelection(this);
-        document.addEventListener('keydown', EscClickHandler);
-
+        handleSelection(this);
       }
     });
   }
