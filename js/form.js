@@ -38,10 +38,10 @@
     },
     setDisabledAdress: function () {
       addressInput.disabled = false;
-      // addressInput.readOnly = true;
+      addressInput.readOnly = true;
     },
     setAdressValue: function (x, y) {
-      addressInput.textContent = 'x: ' + x + ', y: ' + y;
+      addressInput.value = 'x: ' + x + ', y: ' + y;
     }
   };
   window.form.setActive(false);
