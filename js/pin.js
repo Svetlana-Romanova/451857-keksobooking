@@ -4,7 +4,6 @@
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
   var mapPins = document.querySelector('.map__pins');
-  var map = document.querySelector('.map');
 
   var successHandler = (function (authors) {
     window.data = authors;
@@ -93,6 +92,5 @@
   };
 
   window.backend.load(successHandler, errorHandler);
-
 
 })();
