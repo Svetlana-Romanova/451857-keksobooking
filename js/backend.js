@@ -3,6 +3,7 @@
 (function () {
   var URL = 'https://1510.dump.academy/keksobooking/data';
   var formURL = 'https://1510.dump.academy/keksobooking';
+
   window.backend = {
     load: function (onLoad, onError) {
       var xhr = new XMLHttpRequest();
