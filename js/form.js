@@ -11,6 +11,8 @@
   var form = document.querySelector('.notice__form');
   var addressInput = document.querySelector('#address');
 
+  pricePerNight.min = '1000';
+
   roomCapacity[0].selected = 'false';
   roomCapacity[2].selected = 'true';
 
