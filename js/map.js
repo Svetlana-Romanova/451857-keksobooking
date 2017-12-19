@@ -6,12 +6,14 @@
   var mainPin = document.querySelector('.map__pin--main');
 
   mainPin.addEventListener('mouseup', function () {
-    window.form.setActive(true);
-    window.form.setDisabledAdress();
-    map.classList.remove('map--faded');
     var elMapPins = document.querySelectorAll('.map__pin');
     for (var j = 0; j < elMapPins.length; j++) {
       elMapPins[j].classList.remove('hidden');
+    }
+    if (elMapPins.length > 1) {
+      window.form.setActive(true);
+      window.form.setDisabledAdress();
+      map.classList.remove('map--faded');
     }
   });
 
