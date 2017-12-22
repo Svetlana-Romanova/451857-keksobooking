@@ -23,21 +23,21 @@
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < 8; i++) {
 
-      var butt = document.createElement('button');
-      butt.className = 'map__pin hidden';
-      butt.style.cssText = 'left:' + authors[i].location.x + 'px; top:  ' + authors[i].location.y + 'px';
-      butt.style.tabIndex = '0';
-      butt.id = i;
+      var btn = document.createElement('button');
+      btn.className = 'map__pin hidden';
+      btn.style.cssText = 'left:' + authors[i].location.x + 'px; top:  ' + authors[i].location.y + 'px';
+      btn.style.tabIndex = '0';
+      btn.id = i;
 
-      fragment.appendChild(butt);
+      fragment.appendChild(btn);
 
       var img = document.createElement('img');
       img.src = authors[i].author.avatar;
       img.width = 40;
       img.height = 40;
       img.draggable = false;
-      butt.appendChild(img);
-      window.pinsArray.push(butt);
+      btn.appendChild(img);
+      window.pinsArray.push(btn);
     }
     mapPins.appendChild(fragment);
 
@@ -81,15 +81,15 @@
       });
 
       for (var k = 1; k < elMapPins.length; k++) {
-        elMapPins[k].addEventListener('click', function () {
-          handleSelection(this);
+        elMapPins[k].addEventListener('click', function (evt) {
+          handleSelection(evt.currentTarget);
         });
       }
 
       for (var l = 1; l < elMapPins.length; l++) {
         elMapPins[l].addEventListener('keydown', function (evt) {
           if (evt.keyCode === ENTER_KEYCODE) {
-            handleSelection(this);
+            handleSelection(evt.currentTarget);
           }
         });
       }

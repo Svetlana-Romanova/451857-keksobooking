@@ -1,12 +1,12 @@
 'use strict';
 
-window.showCard = (function () {
+(function () {
   var map = document.querySelector('.map');
   var mapTemplate = document.querySelector('template').content.querySelector('article');
   var mapTemplateCopy = mapTemplate.cloneNode(true);
   map.appendChild(mapTemplateCopy);
 
-  return function (pinData) {
+  window.showCard = function (pinData) {
     var typeBuilding = mapTemplateCopy.querySelector('h4');
     var popupFeatures = mapTemplateCopy.querySelector('.popup__features');
     var popupP = mapTemplateCopy.querySelectorAll('p');
