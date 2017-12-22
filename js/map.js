@@ -7,7 +7,7 @@
 
   mainPin.addEventListener('mouseup', function () {
     var elMapPins = document.querySelectorAll('.map__pin');
-    for (var j = 0; j < elMapPins.length; j++) {
+    for (var j = 0; j < 5; j++) {
       elMapPins[j].classList.remove('hidden');
     }
     if (elMapPins.length > 1) {

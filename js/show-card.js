@@ -30,7 +30,7 @@ window.showCard = (function () {
     for (var i = 0; i < popupFeatures.children.length; i++) {
       popupFeatures.children[i].style.display = 'none';
       for (var j = 0; j < pinData.offer.features.length; j++) {
-        var classElement = 'feature--' + window.data[j].offer.features[j];
+        var classElement = 'feature--' + pinData.offer.features[j];
         if (popupFeatures.children[i].classList.contains(classElement)) {
           popupFeatures.children[i].style.display = 'inline-block';
         }
