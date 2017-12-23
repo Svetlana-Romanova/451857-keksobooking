@@ -27,15 +27,17 @@
       typeBuilding.textContent = 'Дом';
     }
 
-    for (var i = 0; i < popupFeatures.children.length; i++) {
-      popupFeatures.children[i].style.display = 'none';
-      for (var j = 0; j < pinData.offer.features.length; j++) {
-        var classElement = 'feature--' + pinData.offer.features[j];
-        if (popupFeatures.children[i].classList.contains(classElement)) {
-          popupFeatures.children[i].style.display = 'inline-block';
-        }
-      }
+    while (popupFeatures.firstChild) {
+      popupFeatures.removeChild(popupFeatures.firstChild);
     }
+
+    for (var j = 0; j < pinData.offer.features.length; j++) {
+      var li = document.createElement('li');
+      var liClass = 'feature--' + pinData.offer.features[j];
+      li.classList.add('feature', liClass);
+      popupFeatures.appendChild(li);
+    }
+
     return mapTemplateCopy;
   };
 })();

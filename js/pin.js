@@ -3,6 +3,7 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
+  var MAX_PINS_RENDER = 5;
 
   var mapPins = document.querySelector('.map__pins');
   var filterHousingType = document.querySelector('#housing-type');
@@ -116,26 +117,18 @@
       for (var i = 0; i < window.pinsArray.length; i++) {
         window.pinsArray[i].classList.add('hidden');
         var applyFilterPrice = function () {
-          if (
+          return (
             (window.data[i].offer.price < 10000 && filters.price === 'low') ||
             (window.data[i].offer.price >= 50000 && filters.price === 'high') ||
             (window.data[i].offer.price >= 10000 && window.data[i].offer.price < 50000 && filters.price === 'middle') ||
             (filters.price === 'any')
-          ) {
-            return true;
-          } else {
-            return false;
-          }
+          );
         };
         var findFeatures = function (ind) {
-          if (
+          return (
             (window.data[i].offer.features[ind] === filters.features[ind]) ||
-            (filters.features[ind] === false)
-          ) {
-            return true;
-          } else {
-            return false;
-          }
+            (!filters.features[ind])
+          );
         };
 
         toFilter[0] = (window.data[i].offer.type === filters.housingType || filters.housingType === 'any');
@@ -151,7 +144,7 @@
 
         var usePinsFilters = function () {
           for (var j = 0; j < toFilter.length; j++) {
-            if (toFilter[j] === false) {
+            if (!toFilter[j]) {
               window.pinsArray[i].classList.add('hidden');
               break;
             } else {
@@ -166,7 +159,7 @@
       if (window.pinsArray.length > 1) {
         for (var j = 0; j < window.pinsArray.length; j++) {
           if (!window.pinsArray[j].classList.contains('hidden')) {
-            if (pinsCount >= 5) {
+            if (pinsCount >= MAX_PINS_RENDER) {
               window.pinsArray[j].classList.add('hidden');
             }
             pinsCount++;
@@ -205,7 +198,10 @@
 
 
   var doFilterOnOff = function (filterName, ind) {
-    if (filters.features[ind] !== false || filterName.checked === false) {
+    if (
+      (filters.features[ind] !== false) ||
+      (!filterName.checked)
+    ) {
       filters.features[ind] = false;
       applyFilters();
     } else {
